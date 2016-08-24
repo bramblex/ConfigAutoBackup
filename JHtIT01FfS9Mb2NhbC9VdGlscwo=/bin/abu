@@ -1,0 +1,203 @@
+#!/bin/bash
+
+function __main__(){
+    BACKUP_DIR=${HOME}/.autobackup
+    local op=${1}
+    shift
+
+    case ${op} in
+        "init")
+            init ${@}
+            return ${?}
+            ;;
+        "cron")
+            cron ${@}
+            return ${?}
+            ;;
+        "add")
+            add ${@}
+            return ${?}
+            ;;
+        "remove")
+            remove ${@}
+            return ${?}
+            ;;
+        "list")
+            list ${@}
+            return ${?}
+            ;;
+        "status")
+            status ${@}
+            return ${?}
+            ;;
+        "sync")
+            sync ${@}
+            return ${?}
+            ;;
+        "restore")
+            restore ${@}
+            return ${?}
+            ;;
+        *)
+            showUsage ${@}
+            return ${?}
+            ;;
+    esac
+}
+
+# ========== init ==================
+function init(){
+    git clone ${1} ${BACKUP_DIR}
+}
+
+# ========== cron ===========
+function cron(){
+    crontab -l > /tmp/abu_corntab
+    echo "*/30 * * * * $(getFilePath ${0}) sync" >> /tmp/abu_crontab
+    crontab /tmp/abu_crontab
+}
+
+# ========== add  ==================
+function add(){
+    local target=${1}
+    if checkFile ${target}
+    then
+        local target_fullpath=$(getFilePath ${target})
+        local backup_path=${BACKUP_DIR}/$(generateBackupName ${target_fullpath})
+        mv ${target_fullpath} ${backup_path}
+        ln -s ${backup_path} ${target_fullpath}
+    else
+        errcho "${target}: file is not exist or file is a symbolic link"
+        return 1
+    fi
+}
+
+# ========== remove ==================
+function remove(){
+    local target=${1}
+    if checkSymbol ${target}
+    then
+        local target_fullpath=$(getFilePath ${target})
+        local backup_path=${BACKUP_DIR}/$(generateBackupName ${target_fullpath})
+
+        if checkFile ${backup_path}
+        then
+            rm ${target_fullpath}
+            mv ${backup_path} ${target_fullpath}
+        else
+            errcho "${target}: backup is not exist"
+            return 1
+        fi
+
+    else
+        errcho "${target}: file is not exist"
+        return 1
+    fi
+}
+
+# =========== list ===================
+function list(){
+    for backup_file in $(ls ${BACKUP_DIR})
+    do
+        parseBackupFile ${backup_file}
+    done
+}
+
+# =========== status ===================
+function status(){
+    cd ${BACKUP_DIR}
+    git status
+}
+
+# =========== sync ====================
+function sync(){
+    cd ${BACKUP_DIR}
+    git add -A
+    git commit -a -m "auto backup at $(date)"
+    git pull origin master
+    git push origin master
+}
+
+# =========== restore ================
+function restore(){
+    for __backup_file__ in $(ls ${BACKUP_DIR})
+    do
+        local backup_file=${BACKUP_DIR}/${__backup_file__}
+        local __target_file__=$(parseBackupFile ${backup_file})
+        local target_file=${__target_file__/'${HOME}'/${HOME}}
+
+        if [[ ${backup_file} -ef ${target_file} ]]
+        then
+            :
+        elif [[ -e ${target_file} ]]
+        then
+            echo "ignore ${target_file}: file is exist"
+        else
+            echo "restore ${target_file}"
+            ln -s ${backup_file} ${target_file}
+        fi
+    done
+}
+
+# =============== usage ====================
+function showUsage(){
+    cat << EOF
+abu <option> [file]
+
+options:
+        init        init backup dir at ~/.autobackup with git repository
+        cron        add auto sync cron job
+        add         track file
+        remove      remove tracked file
+        list        list add tracked file
+        status      show backup dir git status
+        sync        sync to git repository
+        restore     restore all tracked file to new enviroment
+EOF
+}
+
+# =============== utils ====================
+function checkFile(){
+    local file=${1}
+    return $((test -f ${file} || test -d ${file}) && (! test -L ${file}); echo $?)
+}
+
+function checkSymbol(){
+    local file=${1}
+    return $((test -f ${file} || test -d ${file}) && (test -L ${file}) ;echo $?)
+}
+
+function getFilePath(){
+    local current=$(pwd)
+    local target=${1}
+
+    if [[ -f ${target} ]]
+    then
+        local result=$(cd $(dirname ${target}) && pwd)/$(basename ${target})
+    elif [[ -d ${target} ]]
+    then
+        local result=$(cd ${target} && pwd)
+    else
+        echo 'Impassable!'
+        return 1
+    fi
+    cd ${current}
+    echo ${result}
+}
+
+function generateBackupName(){
+    local file_path=$(getFilePath ${1})
+    echo ${file_path/${HOME}/'${HOME}'} | base64
+}
+
+function parseBackupFile(){
+    local backup_File=$(basename ${1})
+    echo ${backup_File} | base64 -D
+}
+
+function errcho(){
+    >&2 echo $@
+}
+
+# ========== main =================
+__main__ ${@}

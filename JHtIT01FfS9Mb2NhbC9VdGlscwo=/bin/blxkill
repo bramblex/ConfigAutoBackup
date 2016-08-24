@@ -1,0 +1,68 @@
+#!/bin/bash
+
+NAME="blxkill"
+
+function listProcesses(){
+    ps -A -o pid,user,comm | awk 'NR>1'
+}
+
+function findPidByPort(){
+    lsof -i :${1} -s TCP:LISTEN | awk 'NR == 2 {print $2}'
+}
+
+function selectAndKill(){
+    [[ "${@}" == "" ]] && echo "Nothing Matched!" && exit 1
+    echo -e "${@}" | awk '{print "["NR"]", $0}'
+
+    local ln=$(echo -e "${@}" | wc -l)
+    if [[ ${ln} -gt 1 ]]
+    then
+        read -p "Enter numbers to kill processes (example: 1 2 3): " -r
+        [[ ${REPLY} == "*" ]] && local REPLY=$(seq ${ln})
+        for n in ${REPLY}
+        do
+            kill -9 $(echo -e "${@}" | awk "NR == ${n} {print \$1}")
+        done
+    else
+        read -p "Do you want to kill the process?[y/n]" -n 1 -r
+        if [[ ${REPLY} =~ ^[Yy]$ ]]
+        then
+            kill -9 $(echo -e "${@}" | awk '{print $1}')
+        fi
+        echo
+    fi
+}
+
+function SelectbyName(){
+    local processes=$(listProcesses | awk -v pname="$@" 'tolower($3) ~ tolower(pname)')
+    selectAndKill "${processes}"
+}
+
+function SelectbyPid(){
+    local processes=$(listProcesses | awk -v pid="$@" '$1 == pid')
+    selectAndKill "${processes}"
+}
+
+function SelectbyPort(){
+    local pid=$(findPidByPort "$@")
+    local processes=$(listProcesses | awk -v pid="${pid}" '$1 == pid')
+    selectAndKill "${processes}"
+}
+
+function Usage(){
+    cat << EOF
+Usage:
+  ${NAME}
+    [Process Name]              kill by matching process name
+    -i, --pid [PID]             kill by pid
+    -p, --port [Port Number]    kill by port occupation
+EOF
+}
+
+[[ ${1} == '' ]] && echo "\"${NAME} -h\" to show usage" && exit 1
+case ${1} in
+    -i | --pid ) shift && SelectbyPid ${@};;
+    -p | --port ) shift && SelectbyPort ${@};;
+    -h | --help ) Usage;;
+    * ) SelectbyName ${@} ;;
+esac
