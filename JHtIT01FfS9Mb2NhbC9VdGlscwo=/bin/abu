@@ -187,12 +187,12 @@ function getFilePath(){
 
 function generateBackupName(){
     local file_path=$(getFilePath ${1})
-    echo ${file_path/${HOME}/'${HOME}'} | base64
+    echo ${file_path/${HOME}/'${HOME}'} | openssl base64
 }
 
 function parseBackupFile(){
     local backup_File=$(basename ${1})
-    echo ${backup_File} | base64 -D
+    echo ${backup_File} | openssl base64 -d
 }
 
 function errcho(){
