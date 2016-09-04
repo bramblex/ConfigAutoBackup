@@ -33,7 +33,9 @@ values."
      javascript
      python
 
-     frame-geometry
+     purescript
+     elm
+
      ;; git
      ;; org
      ;; (shell :variables
