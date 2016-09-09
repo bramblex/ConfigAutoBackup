@@ -30,8 +30,10 @@ values."
      markdown
      spell-checking
      syntax-checking
+     html
      javascript
      python
+     vue
 
      purescript
      elm
