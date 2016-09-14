@@ -2,12 +2,12 @@
 
 // proxy config
 var rules = [];
-var direct = 'DIRECT';
+var direct = 'DIRECT;';
 var defalut = direct;
 
 // SOCKS
 rules.push({
-    proxy: "SOCKS 127.0.0.1:1080; SOCKS5 127.0.0.1:1080;",
+    proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
     list: [
         'wordpress.com',
 
@@ -114,6 +114,8 @@ var extractRootDomain = function(url){
 
 // interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-    var root_domain = extractRootDomain;
-    return root_domain ? _proxys[ _rules[root_domain] || 0] : _proxys[0];
+    // alert('AAAA');
+    // var root_domain = extractRootDomain;
+    // return root_domain ? _proxys[ _rules[root_domain] || 0] : _proxys[0];
+    return _proxys[1];
 };
