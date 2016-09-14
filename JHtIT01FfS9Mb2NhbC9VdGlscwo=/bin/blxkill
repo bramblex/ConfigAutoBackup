@@ -3,7 +3,7 @@
 NAME="blxkill"
 
 function listProcesses(){
-    ps -A -o pid,user,comm | awk 'NR>1'
+    ps aux | cut -f 1,2,-1 -d ' ' | awk 'NR>1'
 }
 
 function findPidByPort(){
