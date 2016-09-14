@@ -13,7 +13,7 @@ rules.push({
 
         //google
         'google.com',
-        'google.co.jp',
+        'co.jp',
         'gmail.com',
         'gstatic.com',
         'googleusercontent.com',
@@ -96,22 +96,21 @@ rules.push({
 
 // cache white list into a hash
 var _rules = {};
+var _proxys = [defalut];
 rules.forEach(function(rule){
     var list = rule.list;
-    var length = list.length;
-    var proxy = rule.proxy;
+    var proxy_n = _proxys.push(rule.proxy - 1);
     for (var i = 0; i < length; i++){
-        _rules[list[i]] = proxy;
+        _rules[list[i]] = proxy_n;
     }
 });
 
 // get the root domain from a url
-var reg = /https?:\/\/[^\/]*?(\w+\.\w+)\/.*/i;
-var getRootDomain = function getRootDomain(url){
-    return url.match(reg)[1];
+var extractRootDomain = function(url){
+    return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
 };
 
 // interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-    return _rules[getRootDomain(url)] || defalut;
+    return _proxys[ _rules[extractRootDomain(url)] || 0 ];
 };
