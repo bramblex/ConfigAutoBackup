@@ -108,14 +108,10 @@ rules.forEach(function(rule){
 
 // get the root domain from a url
 var extractRootDomain = function(url){
-    var root_domain = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
-    return root_domain ? root_domain[1].split('.').slice(-2).join('.') : undefined;
+    return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
 };
 
 // interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-    // alert('AAAA');
-    // var root_domain = extractRootDomain;
-    // return root_domain ? _proxys[ _rules[root_domain] || 0] : _proxys[0];
-    return _proxys[1];
+    return _proxys[_rules[extractRootDomain(url)] || 0];
 };
