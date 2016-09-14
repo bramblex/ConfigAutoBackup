@@ -73,12 +73,12 @@ rules.push({
         'pastie.org',
         'haskell.org',
         'npmjs.com',
-
         'pixnet.net',
-
         'cilibaba.net',
-
         'v2ex.com',
+
+        // cloudfront.net
+        'cloudfront.net',
     ]
 });
 
@@ -99,7 +99,8 @@ var _rules = {};
 var _proxys = [defalut];
 rules.forEach(function(rule){
     var list = rule.list;
-    var proxy_n = _proxys.push(rule.proxy - 1);
+    var proxy_n = _proxys.push(rule.proxy) - 1;
+    var length = list.length;
     for (var i = 0; i < length; i++){
         _rules[list[i]] = proxy_n;
     }
@@ -112,5 +113,7 @@ var extractRootDomain = function(url){
 
 // interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-    return _proxys[ _rules[extractRootDomain(url)] || 0 ];
+    // return _proxys[ _rules[extractRootDomain(url)] || 0 ];
+    return defalut;
+    debugPAC = url;
 };
