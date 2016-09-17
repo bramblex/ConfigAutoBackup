@@ -64,8 +64,10 @@ function add(){
     then
         local target_fullpath=$(getFilePath ${target})
         local backup_path=${BACKUP_DIR}/$(generateBackupName ${target_fullpath})
-        mv ${target_fullpath} ${backup_path}
-        ln -s ${backup_path} ${target_fullpath}
+
+        cp -r ${target_fullpath} ${backup_path}
+        # mv ${target_fullpath} ${backup_path}
+        # ln -s ${backup_path} ${target_fullpath}
     else
         errcho "${target}: file is not exist or file is a symbolic link"
         return 1
@@ -82,8 +84,9 @@ function remove(){
 
         if checkFile ${backup_path}
         then
-            rm ${target_fullpath}
-            mv ${backup_path} ${target_fullpath}
+            rm ${backup_path}
+            # rm ${target_fullpath}
+            # mv ${backup_path} ${target_fullpath}
         else
             errcho "${target}: backup is not exist"
             return 1
@@ -112,6 +115,14 @@ function status(){
 # =========== sync ====================
 function sync(){
     cd ${BACKUP_DIR}
+
+    for backup_file in $(ls ${BACKUP_DIR})
+    do
+        local target_fullpath = $(parseBackupFile ${backup_file})
+        rm ${backup_file}
+        cp -r ${target_fullpath} ${backup_file}
+    done
+
     git add -A
     git commit -a -m "auto backup at $(date)"
     git pull origin master
@@ -134,7 +145,8 @@ function restore(){
             echo "ignore ${target_file}: file is exist"
         else
             echo "restore ${target_file}"
-            ln -s ${backup_file} ${target_file}
+            # ln -s ${backup_file} ${target_file}
+            cp -r ${backup_file} ${target_file}
         fi
     done
 }
