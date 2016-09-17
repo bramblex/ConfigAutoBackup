@@ -1,0 +1,118 @@
+//================= Config Start ======================
+
+// proxy config
+var rules = [];
+var direct = 'DIRECT;';
+var defalut = direct;
+
+// SOCKS
+rules.push({
+    proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
+    list: [
+        'wordpress.com',
+
+        //google
+        'google.com',
+        'co.jp',
+        'gmail.com',
+        'gstatic.com',
+        'googleusercontent.com',
+        'googleapis.com',
+        'goo.gl',
+        'googlecode.com',
+        'google-analytics.com',
+        'googlevideo.com',
+
+        //youtube
+        'youtube.com',
+        'ytimg.com',
+        'ggpht.com',
+
+        //facebook
+        'facebook.com',
+        'facebook.net',
+        'akamaihd.net',
+
+        //wikipedia.org
+        'wikipedia.org',
+
+        // porn
+        'redtube.com',
+
+        // onedrive
+        'live.com',
+        'dropbox.com',
+        'sourceforge.net',
+
+        // github
+        'github.com',
+        'github.io',
+        'githubusercontent.com',
+
+        // disqus
+        'disqus.com',
+
+        // wordpress
+        'w.org',
+
+        'twitter.com',
+        'twimg.com',
+
+        // eurekavpt.com
+        'eurekavpt.com',
+
+        // teamviewer.com
+        'teamviewer.com',
+
+        // reddit.com
+        'reddit.com',
+        'redditstatic.com',
+        'redditmedia.com',
+
+        // pastie.org
+        'pastie.org',
+        'haskell.org',
+        'npmjs.com',
+        'pixnet.net',
+        'cilibaba.net',
+        'v2ex.com',
+
+        // cloudfront.net
+        'cloudfront.net',
+
+    ]
+});
+
+rules.push({
+    proxy: 'PROXY 0.0.0.0:0',
+    list: [
+        //'zhihu.com',
+        //'v2ex.com',
+        //'weibo.com',
+        //'baidu.com',
+    ]
+});
+
+//================= Config End ======================
+
+// cache white list into a hash
+var _rules = {};
+var _proxys = [defalut];
+rules.forEach(function(rule){
+    var list = rule.list;
+    var proxy_n = _proxys.push(rule.proxy) - 1;
+    var length = list.length;
+    for (var i = 0; i < length; i++){
+        _rules[list[i]] = proxy_n;
+    }
+});
+
+// get the root domain from a url
+var extractRootDomain = function(url){
+    return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
+};
+
+// interface for PAC
+var FindProxyForURL = function FindProxyForURL(url, host) {
+    return _proxys[_rules[extractRootDomain(url)] || 0];
+};
