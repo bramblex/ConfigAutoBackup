@@ -119,7 +119,7 @@ function sync(){
     for backup_file in $(ls ${BACKUP_DIR})
     do
         # local target_fullpath=$(parseBackupFile ${backup_file})
-        echo $(parseBackupFile ${backup_file})
+        # echo $(parseBackupFile ${backup_file})
         # rm ${backup_file}
         # cp -r ${target_fullpath} ${backup_file}
     done
