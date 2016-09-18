@@ -83,13 +83,8 @@ rules.push({
 });
 
 rules.push({
-    proxy: 'PROXY 0.0.0.0:0',
-    list: [
-        //'zhihu.com',
-        //'v2ex.com',
-        //'weibo.com',
-        //'baidu.com',
-    ]
+    proxy: 'PROXY 0.0.0.0:0000',
+    list: []
 });
 
 //================= Config End ======================
