@@ -75,7 +75,7 @@ rules.push({
         'npmjs.com',
         'pixnet.net',
         'cilibaba.net',
-        'v2ex.com',
+        //'v2ex.com',
 
         // cloudfront.net
         'cloudfront.net',
