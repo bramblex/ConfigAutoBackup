@@ -79,6 +79,7 @@ rules.push({
 
         // cloudfront.net
         'cloudfront.net',
+        'tampermonkey.net',
     ]
 });
 
