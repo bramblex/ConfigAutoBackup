@@ -10,8 +10,6 @@ rules.push({
     proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
     list: [
         'wordpress.com',
-
-        //google
         'google.com',
         'co.jp',
         'gmail.com',
@@ -22,65 +20,38 @@ rules.push({
         'googlecode.com',
         'google-analytics.com',
         'googlevideo.com',
-
-        //youtube
         'youtube.com',
         'ytimg.com',
         'ggpht.com',
-
-        //facebook
         'facebook.com',
         'facebook.net',
         'akamaihd.net',
-
-        //wikipedia.org
         'wikipedia.org',
-
-        // porn
         'redtube.com',
-
-        // onedrive
         'live.com',
         'dropbox.com',
         'sourceforge.net',
-
-        // github
         'github.com',
         'github.io',
         'githubusercontent.com',
-
-        // disqus
         'disqus.com',
-
-        // wordpress
         'w.org',
-
         'twitter.com',
         'twimg.com',
-
-        // eurekavpt.com
         'eurekavpt.com',
-
-        // teamviewer.com
         'teamviewer.com',
-
-        // reddit.com
         'reddit.com',
         'redditstatic.com',
         'redditmedia.com',
-
-        // pastie.org
         'pastie.org',
         'haskell.org',
         'npmjs.com',
         'pixnet.net',
         'cilibaba.net',
-        //'v2ex.com',
-
-        // cloudfront.net
         'cloudfront.net',
         'tampermonkey.net',
         'stackoverflow.com',
+        'leetcode.com'
     ]
 });
 
