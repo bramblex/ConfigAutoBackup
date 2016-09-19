@@ -263,9 +263,16 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
   (setq neo-theme 'nerd)
   (setq neo-show-hidden-files nil)
   (setq neo-window-fixed-size t)
+
+  (when window-system (set-frame-size (selected-frame) 120 48))
+  (neotree-toggle)
+  (neotree-dir "~/Workspace/")
+  (switch-to-buffer-other-window "*spacemacs*")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
