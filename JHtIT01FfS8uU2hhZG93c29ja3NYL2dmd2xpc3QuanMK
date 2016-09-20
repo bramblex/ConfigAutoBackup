@@ -9,7 +9,7 @@ var defalut = direct;
 rules.push({
   proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
   list: [
-    '91zll.com,'
+    '91zll.com',
     'wordpress.com',
     'google.com',
     'co.jp',
