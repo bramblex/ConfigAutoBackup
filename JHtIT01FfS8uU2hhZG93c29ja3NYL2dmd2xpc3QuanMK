@@ -7,57 +7,58 @@ var defalut = direct;
 
 // SOCKS
 rules.push({
-    proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
-    list: [
-        'wordpress.com',
-        'google.com',
-        'co.jp',
-        'gmail.com',
-        'gstatic.com',
-        'googleusercontent.com',
-        'googleapis.com',
-        'goo.gl',
-        'googlecode.com',
-        'google-analytics.com',
-        'googlevideo.com',
-        'youtube.com',
-        'ytimg.com',
-        'ggpht.com',
-        'facebook.com',
-        'facebook.net',
-        'akamaihd.net',
-        'wikipedia.org',
-        'redtube.com',
-        'live.com',
-        'dropbox.com',
-        'sourceforge.net',
-        'github.com',
-        'github.io',
-        'githubusercontent.com',
-        'disqus.com',
-        'w.org',
-        'twitter.com',
-        'twimg.com',
-        'eurekavpt.com',
-        'teamviewer.com',
-        'reddit.com',
-        'redditstatic.com',
-        'redditmedia.com',
-        'pastie.org',
-        'haskell.org',
-        'npmjs.com',
-        'pixnet.net',
-        'cilibaba.net',
-        'cloudfront.net',
-        'tampermonkey.net',
-        'stackoverflow.com',
-        'leetcode.com'
-    ]
+  proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
+  list: [
+    '91zll.com,'
+    'wordpress.com',
+    'google.com',
+    'co.jp',
+    'gmail.com',
+    'gstatic.com',
+    'googleusercontent.com',
+    'googleapis.com',
+    'goo.gl',
+    'googlecode.com',
+    'google-analytics.com',
+    'googlevideo.com',
+    'youtube.com',
+    'ytimg.com',
+    'ggpht.com',
+    'facebook.com',
+    'facebook.net',
+    'akamaihd.net',
+    'wikipedia.org',
+    'redtube.com',
+    'live.com',
+    'dropbox.com',
+    'sourceforge.net',
+    'github.com',
+    'github.io',
+    'githubusercontent.com',
+    'disqus.com',
+    'w.org',
+    'twitter.com',
+    'twimg.com',
+    'eurekavpt.com',
+    'teamviewer.com',
+    'reddit.com',
+    'redditstatic.com',
+    'redditmedia.com',
+    'pastie.org',
+    'haskell.org',
+    'npmjs.com',
+    'pixnet.net',
+    'cilibaba.net',
+    'cloudfront.net',
+    'tampermonkey.net',
+    'stackoverflow.com',
+    'leetcode.com'
+  ]
 });
 
 rules.push({
-    proxy: 'PROXY 0.0.0.0:0000',
-    list: []
+  proxy: 'PROXY 0.0.0.0:0000',
+  list: []
 });
 
 //================= Config End ======================
@@ -66,20 +67,20 @@ rules.push({
 var _rules = {};
 var _proxys = [defalut];
 rules.forEach(function(rule){
-    var list = rule.list;
-    var proxy_n = _proxys.push(rule.proxy) - 1;
-    var length = list.length;
-    for (var i = 0; i < length; i++){
-        _rules[list[i]] = proxy_n;
-    }
+  var list = rule.list;
+  var proxy_n = _proxys.push(rule.proxy) - 1;
+  var length = list.length;
+  for (var i = 0; i < length; i++){
+    _rules[list[i]] = proxy_n;
+  }
 });
 
 // get the root domain from a url
 var extractRootDomain = function(url){
-    return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
+  return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
 };
 
 // interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-    return _proxys[_rules[extractRootDomain(url)] || 0];
+  return _proxys[_rules[extractRootDomain(url)] || 0];
 };
