@@ -87,3 +87,7 @@ var extractRootDomain = function(url){
 var FindProxyForURL = function FindProxyForURL(url, host) {
   return _proxys[_rules[extractRootDomain(url)] || 0];
 };
+
+
+if (typeof module !== 'undefined' && module.exports){
+}
