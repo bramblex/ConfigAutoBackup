@@ -1,93 +1,83 @@
-//================= Config Start ======================
 
-// proxy config
-var rules = [];
-var direct = 'DIRECT;';
-var defalut = direct;
+var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
-// SOCKS
-rules.push({
-  proxy: "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;",
-  list: [
-    'amazonaws.com',
-    'phonegap.com',
-    '91zll.com',
-    'wordpress.com',
-    'google.com',
-    'co.jp',
-    'com.hk',
-    'gmail.com',
-    'gstatic.com',
-    'googleusercontent.com',
-    'googleapis.com',
-    'goo.gl',
-    'googlecode.com',
-    'google-analytics.com',
-    'googlevideo.com',
-    'youtube.com',
-    'ytimg.com',
-    'ggpht.com',
-    'facebook.com',
-    'facebook.net',
-    'akamaihd.net',
-    'wikipedia.org',
-    'redtube.com',
-    'live.com',
-    'dropbox.com',
-    'sourceforge.net',
-    'github.com',
-    'github.io',
-    'githubusercontent.com',
-    'disqus.com',
-    'w.org',
-    'twitter.com',
-    'twimg.com',
-    'eurekavpt.com',
-    'teamviewer.com',
-    'reddit.com',
-    'redditstatic.com',
-    'redditmedia.com',
-    'pastie.org',
-    'haskell.org',
-    'npmjs.com',
-    'pixnet.net',
-    'cilibaba.net',
-    'cloudfront.net',
-    'tampermonkey.net',
-    'stackoverflow.com',
-    'leetcode.com'
-  ]
-});
-
-rules.push({
-  proxy: 'PROXY 0.0.0.0:0000',
-  list: []
-});
-
-//================= Config End ======================
-
-// cache white list into a hash
-var _rules = {};
-var _proxys = [defalut];
-rules.forEach(function(rule){
-  var list = rule.list;
-  var proxy_n = _proxys.push(rule.proxy) - 1;
-  var length = list.length;
-  for (var i = 0; i < length; i++){
-    _rules[list[i]] = proxy_n;
-  }
-});
-
-// get the root domain from a url
-var extractRootDomain = function(url){
-  return url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
+var rules = {
+    "amazonaws.com": true,
+    "phonegap.com": true,
+    "9truezll.com": true,
+    "wordpress.com": true,
+    "google.com": true,
+    "co.jp": true,
+    "com.hk": true,
+    "gmail.com": true,
+    "gstatic.com": true,
+    "googleusercontent.com": true,
+    "googleapis.com": true,
+    "goo.gl": true,
+    "googlecode.com": true,
+    "google-analytics.com": true,
+    "googlevideo.com": true,
+    "youtube.com": true,
+    "ytimg.com": true,
+    "ggpht.com": true,
+    "facebook.com": true,
+    "facebook.net": true,
+    "akamaihd.net": true,
+    "wikipedia.org": true,
+    "redtube.com": true,
+    "live.com": true,
+    "dropbox.com": true,
+    "sourceforge.net": true,
+    "github.com": true,
+    "github.io": true,
+    "githubusercontent.com": true,
+    "disqus.com": true,
+    "w.org": true,
+    "twitter.com": true,
+    "twimg.com": true,
+    "eurekavpt.com": true,
+    "teamviewer.com": true,
+    "reddit.com": true,
+    "redditstatic.com": true,
+    "redditmedia.com": true,
+    "pastie.org": true,
+    "haskell.org": true,
+    "npmjs.com": true,
+    "pixnet.net": true,
+    "cilibaba.net": true,
+    "cloudfront.net": true,
+    "tampermonkey.net": true,
+    "stackoverflow.com": true,
+    "leetcode.com": true
 };
 
-// interface for PAC
 var FindProxyForURL = function FindProxyForURL(url, host) {
-  return _proxys[_rules[extractRootDomain(url)] || 0];
+    var rootDomain = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i)[1].split('.').slice(-2).join('.');
+    return rules[rootDomain] ? proxy : 'DIRECT;';
 };
 
+var runNode = function(){
+    if (typeof module !== 'undefined' && module.exports){
+        var command = process.argv[2];
+        var argument = process.argv[3];
 
-if (typeof module !== 'undefined' && module.exports){
-}
+        if (command && command === 'list'){
+            Object.keys(rules).forEach(function(rule){
+                console.log(rule);
+            });
+            return;
+        }
+
+        // if (command && argument){
+        //     if (command === 'set'){
+        //         proxy = argument;
+        //     } else if (command === 'add'){
+        //     } else if (command === 'rm'){
+        //     }
+        // } else {
+        //     return;
+        // }
+    }
+};
+
+runNode();
