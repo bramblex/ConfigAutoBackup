@@ -48,7 +48,8 @@ var rules = {
     "tampermonkey.net": true,
     "stackoverflow.com": true,
     "leetcode.com": true,
-    "baidu.com": true
+    "baidu.com": true,
+    "slideshare.net": true
 };
 
 var FindProxyForURL = function FindProxyForURL(url, host) {
