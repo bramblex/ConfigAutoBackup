@@ -269,8 +269,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   (my-setup-indet 2)
-  (setq js2-strict-missing-semi-warning nil)
-  (setq js2-missing-semi-one-line-override t)
 
   )
 
@@ -290,6 +288,9 @@ you should place your code here."
   (neotree-toggle)
   (neotree-dir "~/Workspace/")
   (switch-to-buffer-other-window "*spacemacs*")
+
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-missing-semi-one-line-override t)
 
   )
 
