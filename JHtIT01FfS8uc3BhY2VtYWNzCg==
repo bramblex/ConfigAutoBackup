@@ -28,7 +28,6 @@ values."
      better-defaults
      emacs-lisp
      markdown
-     spell-checking
      syntax-checking
      html
      javascript
@@ -268,7 +267,11 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
   (my-setup-indet 2)
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-missing-semi-one-line-override t)
+
   )
 
 (defun dotspacemacs/user-config ()
