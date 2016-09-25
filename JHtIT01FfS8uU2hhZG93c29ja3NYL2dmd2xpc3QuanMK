@@ -107,12 +107,33 @@ var runNode = function (){
 
         var proxy_define = 'var proxy = ' + JSON.stringify(proxy);
         var rules_define = 'var rules = ' + JSON.stringify(rules, null, 4);
+        var getRootDomain_define = 'var getRootDomain =' + getRootDomain.toString();
         var FindProxyForURL_define = 'var FindProxyForURL = ' + FindProxyForURL.toString();
         var runNode_define = 'var runNode = ' + runNode.toString();
-        var code = [proxy_define, rules_define, FindProxyForURL_define, runNode_define, 'runNode()'].join(';\n\n') + ';';
+        var code = [
+            proxy_define,
+            rules_define,
+            getRootDomain_define,
+            FindProxyForURL_define,
+            runNode_define,
+            'runNode()'
+        ].join(';\n\n') + ';';
 
         require('fs').writeFileSync(__filename, code, 'utf8');
     }
 };
 
 runNode();
+
+
+// =====================
+
+{
+    "com":true,
+    "org":true,
+    "net":true,
+    "edu":true,
+    "gov":true,
+    "ac":true,
+    "co":true
+}
