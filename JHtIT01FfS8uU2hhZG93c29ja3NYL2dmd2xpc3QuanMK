@@ -49,7 +49,9 @@ var rules = {
     "stackoverflow.com": true,
     "leetcode.com": true,
     "baidu.com": true,
-    "slideshare.net": true
+    "slideshare.net": true,
+    "googletagservices.com": true,
+    "doubleclick.net": true
 };
 
 var FindProxyForURL = function FindProxyForURL(url, host) {
