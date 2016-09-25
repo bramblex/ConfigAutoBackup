@@ -1,6 +1,7 @@
 
 alias rm="trash"
 alias onproxy="proxychains4 -q -f ~/.proxychains.conf "
+alias pac="node ~/.ShadowsocksX/gfwlist.js"
 
 function cpptest(){
     g++ ${@} -o /tmp/a.out && /tmp/a.out

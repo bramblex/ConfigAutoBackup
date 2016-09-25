@@ -1,3 +1,5 @@
+// Update At 2016-09-26 03:55:52;
+
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
 var rules = {
@@ -6,8 +8,6 @@ var rules = {
     "9truezll.com": true,
     "wordpress.com": true,
     "google.com": true,
-    "co.jp": true,
-    "com.hk": true,
     "gmail.com": true,
     "gstatic.com": true,
     "googleusercontent.com": true,
@@ -52,12 +52,17 @@ var rules = {
     "slideshare.net": true,
     "googletagservices.com": true,
     "doubleclick.net": true,
-    "hola.org": true
+    "hola.org": true,
+    "google.co.jp": true,
+    "google.com.hk": true
 };
 
-
-var getRootDomain = function(url){
-    return url.match(/^(https?\:\/\/|)([^\/?#]+)(?:[\/?#]|$)/i)[2].split('.').slice(-2).join('.');
+var getRootDomain =function (url){
+    var subdomian_map = {"com":true, "org":true, "net":true, "edu":true, "gov":true, "ac":true, "co":true}
+    var domian_list = url.match(/^(https?\:\/\/|)([^\/?#]+)(?:[\/?#]|$)/i)[2].split('.');
+    return subdomian_map[domian_list[domian_list.length-2]]
+        ? domian_list.slice(-3).join('.')
+        : domian_list.slice(-2).join('.');
 };
 
 var FindProxyForURL = function FindProxyForURL(url, host) {
@@ -65,7 +70,7 @@ var FindProxyForURL = function FindProxyForURL(url, host) {
     return rules[root_domain] ? proxy : 'DIRECT;';
 };
 
-var runNode = function (){
+var runIfNode = function (){
     if (typeof module !== 'undefined' && module.exports){
         var command = process.argv[2];
         var argument = process.argv[3];
@@ -105,35 +110,24 @@ var runNode = function (){
             process.exit(1);
         }
 
+        var date_comment = '// Update At ' + (new Date()).toLocaleString();
         var proxy_define = 'var proxy = ' + JSON.stringify(proxy);
         var rules_define = 'var rules = ' + JSON.stringify(rules, null, 4);
         var getRootDomain_define = 'var getRootDomain =' + getRootDomain.toString();
         var FindProxyForURL_define = 'var FindProxyForURL = ' + FindProxyForURL.toString();
-        var runNode_define = 'var runNode = ' + runNode.toString();
+        var runIfNode_define = 'var runIfNode = ' + runIfNode.toString();
         var code = [
+            date_comment,
             proxy_define,
             rules_define,
             getRootDomain_define,
             FindProxyForURL_define,
-            runNode_define,
-            'runNode()'
+            runIfNode_define,
+            'runIfNode()'
         ].join(';\n\n') + ';';
 
         require('fs').writeFileSync(__filename, code, 'utf8');
     }
 };
 
-runNode();
-
-
-// =====================
-
-{
-    "com":true,
-    "org":true,
-    "net":true,
-    "edu":true,
-    "gov":true,
-    "ac":true,
-    "co":true
-}
+runIfNode();
