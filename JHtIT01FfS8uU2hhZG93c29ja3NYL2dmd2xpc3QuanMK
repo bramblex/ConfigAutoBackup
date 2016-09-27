@@ -1,4 +1,4 @@
-// Update At 2016-09-26 03:55:52;
+// Update At 2016-09-27 09:25:11;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -54,7 +54,8 @@ var rules = {
     "doubleclick.net": true,
     "hola.org": true,
     "google.co.jp": true,
-    "google.com.hk": true
+    "google.com.hk": true,
+    "livecoding.tv": true
 };
 
 var getRootDomain =function (url){
@@ -88,8 +89,10 @@ var runIfNode = function (){
                 proxy = argument;
             } else if (command === 'add'){
                 rules[getRootDomain(argument)] = true;
+                console.log('add', getRootDomain(argument));
             } else if (command === 'rm'){
                 delete rules[getRootDomain(argument)];
+                console.log('rm', getRootDomain(argument));
             }
         } else {
             console.log(
