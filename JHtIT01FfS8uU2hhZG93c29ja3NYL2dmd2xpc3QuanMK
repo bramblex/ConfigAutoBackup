@@ -1,4 +1,4 @@
-// Update At 2016-09-27 09:25:11;
+// Update At 2016-09-27 23:26:24;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -55,7 +55,8 @@ var rules = {
     "hola.org": true,
     "google.co.jp": true,
     "google.com.hk": true,
-    "livecoding.tv": true
+    "livecoding.tv": true,
+    "sequelizejs.com": true
 };
 
 var getRootDomain =function (url){
