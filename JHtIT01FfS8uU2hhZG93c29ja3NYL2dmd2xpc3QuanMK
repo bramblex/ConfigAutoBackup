@@ -1,11 +1,10 @@
-// Update At 2016-09-28 11:23:13;
+// Update At 2016-09-28 12:41:40;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
 var rules = {
     "amazonaws.com": true,
     "phonegap.com": true,
-    "9truezll.com": true,
     "wordpress.com": true,
     "google.com": true,
     "gmail.com": true,
@@ -56,7 +55,8 @@ var rules = {
     "google.co.jp": true,
     "google.com.hk": true,
     "livecoding.tv": true,
-    "sequelizejs.com": true
+    "sequelizejs.com": true,
+    "91zll.com": true
 };
 
 var getRootDomain =function (url){
