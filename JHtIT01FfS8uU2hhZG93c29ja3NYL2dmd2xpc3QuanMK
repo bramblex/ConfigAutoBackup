@@ -1,4 +1,4 @@
-// Update At 2016-09-28 22:26:29;
+// Update At 2016-09-29 20:49:57;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -47,7 +47,6 @@ var rules = {
     "tampermonkey.net": true,
     "stackoverflow.com": true,
     "leetcode.com": true,
-    "baidu.com": true,
     "slideshare.net": true,
     "googletagservices.com": true,
     "doubleclick.net": true,
