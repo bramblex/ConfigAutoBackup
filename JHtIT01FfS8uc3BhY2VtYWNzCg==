@@ -52,6 +52,7 @@ values."
    dotspacemacs-additional-packages
    '(
      bison-mode
+     (vue-mode :location (recipe :fetcher github :repo "codefalling/vue-mode"))
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
