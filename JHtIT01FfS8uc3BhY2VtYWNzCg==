@@ -32,7 +32,7 @@ values."
      html
      javascript
      python
-     vue
+     ;; vue
      c++
 
      purescript
