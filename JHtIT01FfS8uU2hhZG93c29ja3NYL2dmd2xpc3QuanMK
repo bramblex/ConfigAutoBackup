@@ -1,4 +1,4 @@
-// Update At 2016-10-01 21:35:14;
+// Update At 2016-10-02 13:20:49;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -58,7 +58,8 @@ var rules = {
     "91zll.com": true,
     "123systems.net": true,
     "jetbrains.com": true,
-    "jetbrains.org": true
+    "jetbrains.org": true,
+    "npmjs.org": true
 };
 
 var getRootDomain =function (url){
