@@ -83,7 +83,7 @@ var runIfNode = function (){
         var command = process.argv[2];
         var argument = process.argv[3];
 
-        var access_command = ['list', 'set', 'add', 'rm', 'push'];
+        var access_command = ['list', 'set', 'add', 'rm', 'push', 'current'];
 
         if (access_command.indexOf(command) >= 0){
             if (command === 'list'){
@@ -92,6 +92,9 @@ var runIfNode = function (){
                     .sort()
                     .forEach(function(rule){console.log(rule);});
                 return;
+            } else if (command === 'current'){
+              console.log(proxy);
+              return;
             } else if (command === 'set'){
                 proxy = argument;
             } else if (command === 'add'){
@@ -114,6 +117,7 @@ var runIfNode = function (){
                 [
                     '\n',
                     'Usage: ',
+                    '\tcurrent: show current proxy',
                     '\tlist: list all rules',
                     '\tset <proxy>: set current proxy',
                     '\tadd <root domain>: add root domian rule',
