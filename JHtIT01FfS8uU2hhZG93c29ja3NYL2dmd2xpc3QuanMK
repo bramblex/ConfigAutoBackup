@@ -83,7 +83,7 @@ var runIfNode = function (){
         var command = process.argv[2];
         var argument = process.argv[3];
 
-        var access_command = ['list', 'set', 'add', 'rm'];
+        var access_command = ['list', 'set', 'add', 'rm', 'push'];
 
         if (access_command.indexOf(command) >= 0){
             if (command === 'list'){
@@ -100,6 +100,14 @@ var runIfNode = function (){
             } else if (command === 'rm'){
                 delete rules[getRootDomain(argument)];
                 console.log('rm', getRootDomain(argument));
+            } else if (command === 'push'){
+              var child_process = require('child_process');
+              child_process.exec([
+                'scp',
+                JSON.stringify(__filename),
+                JSON.stringify(argument)
+              ].join(' '))
+              return;
             }
         } else {
             console.log(
@@ -110,6 +118,7 @@ var runIfNode = function (){
                     '\tset <proxy>: set current proxy',
                     '\tadd <root domain>: add root domian rule',
                     '\trm <root domain>: remove root domian',
+                    '\tpush <remote path>: push current pac to remote',
                     '\n',
                     'Example: ',
                     '\tset "SOCKS5 127.0.0.1:1080;"',
