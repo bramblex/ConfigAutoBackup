@@ -1,4 +1,4 @@
-// Update At 2016-10-07 13:51:57;
+// Update At 2016-10-07 15:29:30;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -66,7 +66,7 @@ var rules = {
     "ruanyifeng.com": true
 };
 
-var getRootDomain =function (url){
+var getRootDomain = function getRootDomain(url) {
     var subdomian_map = {"com":true, "org":true, "net":true, "edu":true, "gov":true, "ac":true, "co":true}
     var domian_list = url.match(/^(https?\:\/\/|)([^\/?#]+)(?:[\/?#]|$)/i)[2].split('.');
     return subdomian_map[domian_list[domian_list.length-2]]
@@ -81,76 +81,101 @@ var FindProxyForURL = function FindProxyForURL(url, host) {
 
 var runIfNode = function (){
     if (typeof module !== 'undefined' && module.exports){
-        var command = process.argv[2];
-        var argument = process.argv[3];
 
-        var access_command = ['list', 'set', 'add', 'rm', 'push', 'current'];
+      var ncr = function ncr(router){
+        var path = process.argv.slice(2);
+        var current, i;
+        var next = router;
 
-        if (access_command.indexOf(command) >= 0){
-            if (command === 'list'){
-                Object
-                    .keys(rules)
-                    .sort()
-                    .forEach(function(rule){console.log(rule);});
-                return;
-            } else if (command === 'current'){
-              console.log(proxy);
-              return;
-            } else if (command === 'set'){
-                proxy = argument;
-            } else if (command === 'add'){
-                rules[getRootDomain(argument)] = true;
-                console.log('add', getRootDomain(argument));
-            } else if (command === 'rm'){
-                delete rules[getRootDomain(argument)];
-                console.log('rm', getRootDomain(argument));
-            } else if (command === 'push'){
-              var child_process = require('child_process');
-              child_process.exec([
-                'scp',
-                JSON.stringify(__filename),
-                JSON.stringify(argument)
-              ].join(' '))
-              return;
-            }
-        } else {
-            console.log(
-                [
-                    '\n',
-                    'Usage: ',
-                    '\tcurrent: show current proxy',
-                    '\tlist: list all rules',
-                    '\tset <proxy>: set current proxy',
-                    '\tadd <root domain>: add root domian rule',
-                    '\trm <root domain>: remove root domian',
-                    '\tpush <remote path>: push current pac to remote',
-                    '\n',
-                    'Example: ',
-                    '\tset "SOCKS5 127.0.0.1:1080;"',
-                    '\tadd google.com',
-                    '\n'
-                ].join('\n')
-            );
-            process.exit(1);
+        for(i=0; i<path.length; i++){
+          current = next;
+          next = next[path[i]];
+          if (typeof next === 'object') continue; else break;
         }
 
+        if (typeof next === 'function'){
+          var args_needed = next.toString().match(/^(function|)\s*\S*\s*\((.*?)\)/)[2]
+                .split(',').filter(function(item){return item.trim() !== ''});
+          var args = path.slice(i+1);
+          if (args_needed.length !== 0 && args.length !== args_needed.length ){
+            throw new Error('Command "'+path[i]+'" need agruments: '+args_needed.map(function(item){return '<'+item+'>'}).join(' '));
+          } else {
+            return next.apply(current, args);
+          }
+        } else if (typeof next === 'object'){
+          if (typeof next['?'] === 'function') return next['?'].apply(next, path.slice(i+1));
+          throw new Error('Need more arguments, like '+JSON.stringify(Object.keys(next).filter(function(item){return item !== '?'})))
+        } else {
+          throw new Error('Command "'+path[i]+'" not found. Do you mean '+JSON.stringify(Object.keys(current).filter(function(item){return item !== '?'})))
+        }
+      };
+
+      var refreshPac = function refreshPac(){
         var date_comment = '// Update At ' + (new Date()).toLocaleString();
         var proxy_define = 'var proxy = ' + JSON.stringify(proxy);
         var rules_define = 'var rules = ' + JSON.stringify(rules, null, 4);
-        var getRootDomain_define = 'var getRootDomain =' + getRootDomain.toString();
+        var getRootDomain_define = 'var getRootDomain = ' + getRootDomain.toString();
         var FindProxyForURL_define = 'var FindProxyForURL = ' + FindProxyForURL.toString();
         var runIfNode_define = 'var runIfNode = ' + runIfNode.toString();
         var code = [
-            date_comment,
-            proxy_define,
-            rules_define,
-            getRootDomain_define,
-            FindProxyForURL_define,
-            runIfNode_define,
-            'runIfNode()'
+          date_comment,
+          proxy_define,
+          rules_define,
+          getRootDomain_define,
+          FindProxyForURL_define,
+          runIfNode_define,
+          'runIfNode()'
         ].join(';\n\n') + ';';
 
         require('fs').writeFileSync(__filename, code, 'utf8');
+      };
+
+      ncr({
+
+        proxy: {
+          show: function(){
+            console.log(proxy);
+          },
+          set: function(pac_proxy){
+            proxy = pac_proxy;
+            refreshPac();
+            console.log('proxy set:', pac_proxy);
+          }
+        },
+
+        rule: {
+          list: function(){
+            Object.keys(rules).sort().forEach(function(rule){console.log(rule)});
+          },
+          add: function(url_or_rule){
+            rules[getRootDomain(url_or_rule)] = true;
+            refreshPac();
+            console.log('rules add:', getRootDomain(url_or_rule));
+          },
+          rm: function(url_or_rule){
+            delete rules[getRootDomain(url_or_rule)];
+            refreshPac();
+            console.log('rules rm:', getRootDomain(url_or_rule));
+          }
+        },
+
+        help: function(){
+          console.log([
+            'Usage: ',
+            '\tproxy set <pac_proxy>: set proxy',
+            '\tproxy show: show current proxy',
+            '\trule list: list all rules',
+            '\trule add <url_or_rule>: add rules',
+            '\trule rm <url_or_rule>: rm rules'
+          ].join('\n'));
+        },
+
+        '?': function(){
+          this.help();
+          process.exit(1);
+        }
+      })
+
     }
 };
 
