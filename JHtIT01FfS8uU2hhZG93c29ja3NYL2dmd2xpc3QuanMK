@@ -1,4 +1,4 @@
-// Update At 2016-10-07 17:28:20;
+// Update At 2016-10-08 21:43:16;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -65,7 +65,9 @@ var rules = {
     "mzl.la": true,
     "ruanyifeng.com": true,
     "mailchimp.com": true,
-    "apple.com": true
+    "apple.com": true,
+    "quora.com": true,
+    "quoracdn.net": true
 };
 
 var getRootDomain = function getRootDomain(url) {
