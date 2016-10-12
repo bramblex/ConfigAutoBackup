@@ -1,4 +1,4 @@
-// Update At 2016-10-09 18:52:04;
+// Update At 2016-10-12 18:25:17;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -71,7 +71,9 @@ var rules = {
     "withgoogle.com": true,
     "jsdelivr.net": true,
     "rawgit.com": true,
-    "vuejs.org": true
+    "vuejs.org": true,
+    "blogger.com": true,
+    "disquscdn.com": true
 };
 
 var getRootDomain = function getRootDomain(url) {
