@@ -1,4 +1,4 @@
-// Update At 2016-10-14 16:53:02;
+// Update At 2016-10-15 10:10:44;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -76,7 +76,8 @@ var rules = {
     "disquscdn.com": true,
     "eslint.org": true,
     "wordreference.com": true,
-    "html2jade.org": true
+    "html2jade.org": true,
+    "nodejs.org": true
 };
 
 var getRootDomain = function getRootDomain(url) {
