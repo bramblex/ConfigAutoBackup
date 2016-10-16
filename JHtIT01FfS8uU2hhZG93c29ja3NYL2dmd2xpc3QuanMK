@@ -1,4 +1,4 @@
-// Update At 2016-10-15 10:10:44;
+// Update At 2016-10-17 00:25:58;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
