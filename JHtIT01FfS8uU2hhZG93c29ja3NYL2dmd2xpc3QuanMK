@@ -1,4 +1,4 @@
-// Update At 2016-10-20 18:53:40;
+// Update At 2016-10-20 19:59:47;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -78,7 +78,9 @@ var rules = {
     "wordreference.com": true,
     "html2jade.org": true,
     "nodejs.org": true,
-    "appstorm.net": true
+    "appstorm.net": true,
+    "nwjs.io": true,
+    "chrome.com": true
 };
 
 var getRootDomain = function getRootDomain(url) {
