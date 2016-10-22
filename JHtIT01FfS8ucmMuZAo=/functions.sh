@@ -20,3 +20,15 @@ function decrypt(){
         openssl aes-128-cbc -d -salt -in ${file} -out ${file%'.aes'}
     done
 }
+
+function restartWhileError(){
+    echo "RUN: ${@}"
+    ${@}
+    local code=${?}
+    while [[ ${code} != 0 ]]
+    do
+        echo "ERROR WITH CODE: ${code}"
+        echo "RESTART: ${@}"
+        ${@}
+    done
+}
