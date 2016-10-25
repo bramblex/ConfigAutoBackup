@@ -1,4 +1,4 @@
-// Update At 2016-10-24 21:14:07;
+// Update At 2016-10-25 23:35:32;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -83,7 +83,8 @@ var rules = {
     "chrome.com": true,
     "readthedocs.io": true,
     "python.org": true,
-    "eleme.io": true
+    "eleme.io": true,
+    "t66y.com": true
 };
 
 var getRootDomain = function getRootDomain(url) {
