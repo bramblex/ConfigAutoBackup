@@ -1,6 +1,8 @@
 
+__SHADOWSOCKS_PROXY__="socks5://localhost:1080"
+
 alias rm="trash"
-alias onproxyenv="ALL_PROXY=\"socks5://localhost:1080\""
+alias onproxyenv="ALL_PROXY=${__SHADOWSOCKS_PROXY__}"
 alias onproxychains="proxychains4 -q -f ~/.proxychains.conf "
 alias pac="node ~/.ShadowsocksX/gfwlist.js"
 
