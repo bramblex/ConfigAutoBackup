@@ -1,9 +1,10 @@
 
-__SHADOWSOCKS_PROXY__="socks5://localhost:1080"
+__HTTP_PROXY__="http://127.0.0.1:1081"
+__SOCKS5_PROXY__="socks5://127.0.0.1:1080"
 
 alias rm="trash"
-alias onproxyenv="ALL_PROXY=${__SHADOWSOCKS_PROXY__}"
-alias onproxychains="proxychains4 -q -f ~/.proxychains.conf "
+alias onproxy="http_proxy=${__HTTP_PROXY__} https_proxy=${__HTTP_PROXY__} HTTP_PROXY=${__HTTP_PROXY__} HTTPS_PROXY=${__HTTP_PROXY__} ALL_PROXY=${__SOCKS5_PROXY__} all_proxy=${__SOCKS5_PROXY__}"
+alias onproxychains="proxychains4 -q -f ~/.proxychains.conf"
 alias pac="node ~/.ShadowsocksX/gfwlist.js"
 
 
