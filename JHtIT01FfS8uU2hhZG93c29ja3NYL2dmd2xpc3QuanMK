@@ -1,4 +1,4 @@
-// Update At 2016-10-29 21:46:05;
+// Update At 2016-11-11 00:39:34;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -87,7 +87,11 @@ var rules = {
     "t66y.com": true,
     "android.com": true,
     "gradle.org": true,
-    "githubmail.com": true
+    "githubmail.com": true,
+    "tablesgenerator.com": true,
+    "divtable.com": true,
+    "racket-lang.org": true,
+    "forbes.com": true
 };
 
 var getRootDomain = function getRootDomain(url) {
