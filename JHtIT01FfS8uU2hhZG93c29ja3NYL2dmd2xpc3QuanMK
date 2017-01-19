@@ -1,4 +1,4 @@
-// Update At 2016-11-11 00:39:34;
+// Update At 2017-1-19 15:51:51;
 
 var proxy = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;";
 
@@ -91,7 +91,8 @@ var rules = {
     "tablesgenerator.com": true,
     "divtable.com": true,
     "racket-lang.org": true,
-    "forbes.com": true
+    "forbes.com": true,
+    "torproject.org": true
 };
 
 var getRootDomain = function getRootDomain(url) {
