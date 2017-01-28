@@ -7,7 +7,6 @@ alias onproxy="http_proxy=${__HTTP_PROXY__} https_proxy=${__HTTP_PROXY__} HTTP_P
 alias onproxychains="proxychains4 -q -f ~/.proxychains.conf"
 alias pac="node ~/.ShadowsocksX/gfwlist.js"
 
-
 function cpptest(){
     g++ ${@} -o /tmp/a.out && /tmp/a.out
 }
