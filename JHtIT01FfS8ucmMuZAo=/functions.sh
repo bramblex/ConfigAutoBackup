@@ -1,5 +1,5 @@
 
-__HTTP_PROXY__="http://127.0.0.1:8898"
+__HTTP_PROXY__="http://127.0.0.1:8899"
 __SOCKS5_PROXY__="socks5://127.0.0.1:8899"
 
 alias rm="trash"
