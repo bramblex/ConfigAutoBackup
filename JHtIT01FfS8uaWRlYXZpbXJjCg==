@@ -1,11 +1,63 @@
 "ideavimrc
 
-set visualbell
-set noerrorbells
+""""""""""""""""""""""""""""""""""""""""
+" VIM基礎設置
 
-nmap <C-n> :wn<CR>
-nmap <C-p> :wp<CR>
+"设置文内智能搜索提示
+    " 高亮search命中的文本。
+    set hlsearch
+    " 打开增量搜索模式,随着键入即时搜索
+    " set incsearch
+    " 搜索时忽略大小写
+    set ignorecase
+    " 有一个或以上大写字母时仍大小写敏感
+    set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
+    " 共享剪贴板
+    set clipboard+=unnamed
 
-nmap \fs :w<CR>
-nmap \wc :q<CR>
-nmap \bd :q<CR>
+
+""""""""""""""""""""""""""""""""""""""""
+" VIM快捷鍵設置
+
+" <C-o><C-i> 回退以及追進光標位置
+
+" Leader鍵
+let mapleader='\'
+let g:mapleader = '\'
+
+" 基本操作
+nnoremap <leader>q :q<cr>
+nnoremap <leader>w :w<cr>
+
+
+" 窗口操作
+nnoremap <leader>v <C-w>v
+nnoremap <leader>s <C-w>s
+
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+
+" 去除搜索後留下的高亮
+nnoremap <leader>/ :nohl<cr>
+
+" 寄存器優化
+
+" 利用寄存器
+noremap <leader>y "*y
+noremap <leader>p "*P
+
+" IdeaVIM
+
+" 切換buffer
+nnoremap <C-n> :N<CR>
+nnoremap <C-p> :n<CR>
+
+" find file
+nnoremap <leader>f :find<CR>
+nnoremap <leader>c :class<CR>
+
+
+" End
+""""""""""""""""""""""""""""""""""""""""
