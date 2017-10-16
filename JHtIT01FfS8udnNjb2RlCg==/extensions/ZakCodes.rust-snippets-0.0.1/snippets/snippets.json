@@ -1,0 +1,37 @@
+{
+    "impl for": {
+        "prefix": "implf",
+        "body": [
+            "impl ${1:Trait} for ${2:Type} {",
+            "\t",
+            "}"
+        ],
+        "description": "impl trait for type"
+    },
+    "impl": {
+        "prefix": "impln",
+        "body": [
+            "impl ${1:Type} {",
+            "\tfn new() {",
+            "\t\t${3}",
+            "\t}",
+            "}"
+        ],
+        "description": "impl type"
+    },
+    "define and impl": {
+        "prefix": "defimp",
+        "body": [
+            "struct ${1:Type} {",
+            "\t${2:parameters}",
+            "}",
+            "",
+            "impl ${1:Type} {",
+            "\tfn new(${2:parameters}) -> ${1:Type} {",
+            "\t\t",
+            "\t}",
+            "}"
+        ],
+        "description": "define and implement type"
+    }
+}
