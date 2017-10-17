@@ -15,7 +15,7 @@ function __main__(){
             return ${?}
             ;;
         "add")
-            add ${@}
+            add "${@}"
             return ${?}
             ;;
         "list")
@@ -55,13 +55,13 @@ function cron(){
 
 # ========== add  ==================
 function add(){
-    local target=${1}
-    if checkFile ${target}
+    local target="${1}"
+    if checkFile "${target}"
     then
-        local target_fullpath=$(getFilePath ${target})
-        local backup_path=${BACKUP_DIR}/$(generateBackupName ${target_fullpath})
+        local target_fullpath="$(getFilePath "${target}")"
+        local backup_path="${BACKUP_DIR}/$(generateBackupName "${target_fullpath}")"
 
-        cp -r ${target_fullpath} ${backup_path}
+        cp -r "${target_fullpath}" "${backup_path}"
         # mv ${target_fullpath} ${backup_path}
         # ln -s ${backup_path} ${target_fullpath}
     else
@@ -149,13 +149,13 @@ EOF
 
 # =============== utils ====================
 function checkFile(){
-    local file=${1}
-    return $((test -f ${file} || test -d ${file}) && (! test -L ${file}); echo $?)
+    local file="${1}"
+    return $((test -f "${file}" || test -d "${file}") && (! test -L "${file}"); echo $?)
 }
 
 function checkSymbol(){
-    local file=${1}
-    return $((test -f ${file} || test -d ${file}) && (test -L ${file}) ;echo $?)
+    local file=""${1}""
+    return $((test -f "${file}" || test -d "${file}") && (test -L "${file}") ;echo $?)
 }
 
 function getFilePath(){
