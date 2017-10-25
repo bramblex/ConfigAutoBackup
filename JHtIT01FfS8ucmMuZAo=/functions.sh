@@ -1,6 +1,6 @@
 
-__HTTP_PROXY__="http://127.0.0.1:8899"
-__SOCKS5_PROXY__="socks5://127.0.0.1:8899"
+__HTTP_PROXY__="http://127.0.0.1:1087"
+__SOCKS5_PROXY__="socks5://127.0.0.1:1086"
 
 alias rm="trash"
 alias onproxy="http_proxy=${__HTTP_PROXY__} https_proxy=${__HTTP_PROXY__} HTTP_PROXY=${__HTTP_PROXY__} HTTPS_PROXY=${__HTTP_PROXY__} ALL_PROXY=${__SOCKS5_PROXY__} all_proxy=${__SOCKS5_PROXY__}"
