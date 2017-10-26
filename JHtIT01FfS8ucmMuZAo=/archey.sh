@@ -120,32 +120,41 @@ then
             ;;
     esac
 
-    fieldlist[${#fieldlist[@]}]="${textColor}User:${normal} ${user}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Hostname:${normal} ${hostname}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Distro:${normal} ${distro}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Kernel:${normal} ${kernel}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Uptime:${normal} ${uptime}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Shell:${normal} ${shell}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Terminal:${normal} ${terminal}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Terminal Size:${normal} $(tput lines) x $(tput cols)"
-    #if [ ${packagehandler} -ne 0 ]; then
-    #fieldlist[${#fieldlist[@]}]="${textColor}Packages:${normal} ${packagehandler}${normal}"
-    #fi
-    fieldlist[${#fieldlist[@]}]="${textColor}CPU:${normal} ${cpu}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Memory:${normal} ${ram}${normal}"
-    fieldlist[${#fieldlist[@]}]="${textColor}Disk:${normal} ${disk}${normal}"
-    #if [ ! -z $battery ]; then
-    #fi
-    fieldlist[${#fieldlist[@]}]="${textColor}Battery:${normal} ${battery}${normal}"
+    [ $(tput lines) -lt 16 ] && exit
 
-    #if [ "${opt_offline}" = f ]; then
-    #fieldlist[${#fieldlist[@]}]="${textColor}IP Address:${normal} ${ip}${normal}"
-    #fi
+    if [ $(tput cols) -gt 86 ]
+    then
 
-    fieldlist[${#fieldlist[@]}]="${textColor}Date:${normal} $(date)${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}User:${normal} ${user}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Hostname:${normal} ${hostname}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Distro:${normal} ${distro}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Kernel:${normal} ${kernel}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Uptime:${normal} ${uptime}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Shell:${normal} ${shell}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Terminal:${normal} ${terminal}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Terminal Size:${normal} $(tput lines) x $(tput cols)"
+        #if [ ${packagehandler} -ne 0 ]; then
+        #fieldlist[${#fieldlist[@]}]="${textColor}Packages:${normal} ${packagehandler}${normal}"
+        #fi
+        fieldlist[${#fieldlist[@]}]="${textColor}CPU:${normal} ${cpu}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Memory:${normal} ${ram}${normal}"
+        fieldlist[${#fieldlist[@]}]="${textColor}Disk:${normal} ${disk}${normal}"
+        #if [ ! -z $battery ]; then
+        #fi
+        fieldlist[${#fieldlist[@]}]="${textColor}Battery:${normal} ${battery}${normal}"
+
+        #if [ "${opt_offline}" = f ]; then
+        #fieldlist[${#fieldlist[@]}]="${textColor}IP Address:${normal} ${ip}${normal}"
+        #fi
+
+        fieldlist[${#fieldlist[@]}]="${textColor}Date:${normal} $(date)${normal}"
+
+    fi
 
     logofile=${ARCHEY_LOGO_FILE:-"${HOME}/.config/archey-logo"}
-    if [ -a "$logofile" ]
+
+
+    if [ -a "$logofile" ] 
     then
         source "$logofile"
     else
