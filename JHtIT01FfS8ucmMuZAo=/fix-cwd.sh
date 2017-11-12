@@ -3,10 +3,10 @@
 if [[ -n "${TMUX}" ]]
 then
     TMUX_SEESION_NAME=$(tmux display-message -p '#S')
-    TMUX_PWD_PATH="/tmp/${TMUX_SEESION_NAME}-pwd"
+    TMUX_PWD_PATH="/tmp/tmux-${TMUX_SEESION_NAME}-pwd"
     function __CD__()
     {
-        echo "${@}" > "${TMUX_PWD_PATH}"
+        echo "$(pwd)/${@}" > "${TMUX_PWD_PATH}"
         "cd" ${@}
     }
 
