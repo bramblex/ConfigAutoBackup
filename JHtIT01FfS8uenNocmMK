@@ -92,6 +92,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.rc.d/env.sh
 source ~/.rc.d/functions.sh
 bash ~/.rc.d/archey.sh
+source ~/.rc.d/mweb-auto-publish.sh
 
 export PATH="$HOME/.fastlane/bin:$PATH"
 
