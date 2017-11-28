@@ -119,7 +119,7 @@ esac
 
 [ $(tput lines) -lt 16 ] && exit
 
-if [ $(tput cols) -gt 86 ]
+if [ $(tput cols) -gt 80 ]
 then
 
     fieldlist[${#fieldlist[@]}]="${textColor}User:${normal} ${user}${normal}"
